@@ -5,7 +5,7 @@
 
 main() -> #template { file="./templates/grid.html" }.
 
-title() -> "Nitrogen Web Framework for Erlang".
+title() -> "Sidan Since 2014".
 
 
 layout() ->
@@ -37,7 +37,7 @@ top_right() ->
         #p { class="section_title", body=""},
         #p { class="section section_download", body=[
             #link { url="/downloads", class="big_download_button", body=[
-                <<"Download Nitrogen <u>&#9660;</u>">>
+                <<"<u>&#9660;</u>">>
             ]},
             #br{},
             #link {url="/downloads", body=[

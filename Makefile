@@ -1,4 +1,4 @@
-REBAR:=./rebar
+REBAR:=rebar
 
 ## If rebar.config file doesn't exist, just default to mochiweb backend
 all:

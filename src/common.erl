@@ -17,8 +17,8 @@ platform() ->
 header(Selected) ->
     wf:wire(Selected, #add_class { class=selected }),
     #panel { class=menu, body=[
-        #link { id=home, url='/', text="HOME" },
-        #link { id=downloads, url='/downloads', text="DOWNLOADS" },
+        #link { id=home, url='/', text="SIDAN" },
+        #link { id=downloads, url='/downloads', text="ARRA" },
         #link { id=demos, url='/demos', text="DEMOS" },
         #link { id=docs, url='/doc/index.html', text="DOCUMENTATION" },
         #link { id=learn, url='/learn', text="LEARN MORE" },
@@ -30,20 +30,15 @@ footer() ->
     YearStr = integer_to_list(Year),
     #panel { class=credits, body=[
         "
-        Copyright &copy; 2008-",YearStr," <a href='http://www.nitrogenproject.com'>Nitrogen Web Framework</a>. 
-        <img src='/images/MiniSpaceman.png' style='vertical-align: middle;' />
-        Released under the MIT License.
+        Copyright &copy; 2008-",YearStr,"
+        Sidan by cl
         "
     ]}.
 
-github_fork() ->
-    Body = #image{
-                image="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png",
-                style="position:absolute; top:0; left: 0; border: 0;z-index:1000",
-                alt="Fork me on GitHub"
-            },
+github_fork() ->   
+
     #link{
         style="position:absolute;top:0; left:0;",
         url="https://github.com/nitrogen",
-        body=Body
+		text="öligaste"
     }.
