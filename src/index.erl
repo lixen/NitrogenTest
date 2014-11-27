@@ -1,4 +1,3 @@
-% vim: ts=4 sw=4 et
 -module (index).
 -include_lib ("nitrogen_core/include/wf.hrl").
 -compile(export_all).
@@ -10,77 +9,74 @@ title() -> "Sidan Since 2014".
 
 layout() ->
     #container_12 { body=[
-        common:github_fork(),
         #grid_12 { class=header, body=common:header(home) },
         #grid_clear {},
+		 #grid_6 {prefix = 3, class=header, body=writer_empty() },
+		#grid_clear {},
 
-        #grid_6 { alpha=true, body=top_left() },
-        #grid_6 { omega=true, body=top_right() },
+        #grid_10{prefix = 1,  omega=true, body=posts() },
         #grid_clear {},
 
         #grid_12 { body=common:footer() }
     ]}.
 
-top_left() ->
-    [
-        #image { class=green_head, image="./images/green_head.png" }
-    ].
+writer_empty() ->
+	[#panel{id = writewrapper,body =[#button{postback=write,text="Skrivskit"}]}].
 
-top_right() ->
+writer() ->
+	[#panel{id = writewrapper, class=writer, body =
+				[#textbox{id=nummer, placeholder="#", maxlength=2, size=2}, #br{},
+			#radiogroup { id=myRadio, body=[
+											#radio { id=myRadio1, text="1", value="1"},
+											#radio { id=myRadio2, text="2", value="2"},
+											#radio { id=myRadio3, text="3", value="3"},
+											#radio { id=myRadio4, text="4", value="4"}
+										   ]},
+				 #textarea{id=nummer, columns=50, rows=3}, #br{},
+				 #button{ id=writebutton, postback=write2,text="Post"}
+		   ]}].
+
+posts() ->
     [
-        #p { class="summary", body=[
-            "
-            <b>Nitrogen Web Framework</b> is the fastest way to
+        #p{ class="summary", body=[
+            "<b>Nitrogen Web Framework</b> is the fastest way to
             develop interactive web applications in full-stack Erlang.
             "
         ]},
         #p { class="section_title", body=""},
         #p { class="section section_download", body=[
-            #link { url="/downloads", class="big_download_button", body=[
-                <<"<u>&#9660;</u>">>
-            ]},
-            #br{},
-            #link {url="/downloads", body=[
-                #image { image="/images/downloads/erlang_logo.png" },
-                #image { image="/images/downloads/mac_logo.png" },
-                #image { image="/images/downloads/linux_logo.png" },
-                #image { image="/images/downloads/windows_logo.png" },
-                #image { image="/images/downloads/freebsd_logo.png" },
-                #image { image="/images/downloads/raspberrypi_logo.png" }
-            ]}
+             "asdasdasd",
+			#br{}
         ]},
 
-        #p { class="section_title", body="MAJOR ANNOUNCEMENTS" },
-        #p { class=section, body=[
-            #time{ class=section_date, text="November 22nd, 2013", datetime="2013-11-22"},
-            #br{},
-            <<"
-            Nitrogen 2.2.2 Released!
-            View the <a href='https://github.com/nitrogen/nitrogen/blob/master/CHANGELOG.markdown'>changelog</a>,
-            or <b><a href='/downloads'>Download it now &raquo;</a></b>
-            ">>
-        ]},
-        #p { class=section, body=[
-            #time{ class=section_date, text="October 18th, 2013", datetime="2013-10-18"},
-            #br{},
-            <<"
-            Nitrogen 2.2.1 Released!
-            Read the <a href='https://groups.google.com/d/msg/nitrogenweb/jTgH611hRSo/IbEyfCe5D1wJ'>announcement</a>
-            ">>
-        ]},
-        #p { class=section, body=[
-            #time{ class=section_date, text="October 3rd, 2013", datetime="2013-10-03"},
-            #br{},
-            <<"
-            Nitrogen 2.2.0 Released!
-            ">>
-        ]},
-        #p { class="section_title", body="LATEST TWEETS" },
-        #panel{class=twitter_button_wrapper,body=[
-            <<"<a href=\"https://twitter.com/nitrogenproject\" data-show-count=\"false\" class=\"twitter-follow-button\" data-dnt=\"true\">Follow @nitrogenproject</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>">>
-        ]},
-
-        <<"<a class=\"twitter-timeline\" height=400 data-tweet-limit=3 data-aria-polite=\"assertive\" data-chrome=\"noborders noheader nofooter transparent\" href=\"https://twitter.com/nitrogenproject\" data-widget-id=\"368136432696586240\">Tweets by @nitrogenproject</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>">>
+        #p{ class=post, body= <<"Nitrogen 2.2.2 Released!asadsasd asdasdasdasdsadasdasd">>},
+        #p{ class=post,         body=[<<"Nitrogen 2.2.2 Released!">>]},
+        #p{ class=post,         body=[<<"Nitrogen 2.2.1 Released!">>]},
+        #p{ class=post,         body=[<<"Nitrogen 2.2.0 Released!">>]},
+        #p{ class=post, body="LATEST TWEETS" }
     ].
+
+event(write) ->
+    wf:replace(writewrapper, writer());
+
+event(write2) ->
+    wf:replace(writewrapper, writer_empty()).
+
+nummer_validator(_Tag, Value) ->
+	case string:to_integer(Value) of 
+		{error,no_integer} -> false;
+		_                  -> true
+	end.
+
+
+
+activate_validater() ->
+    wf:wire(createButton, description,
+	    #validate { validators=[
+				    #is_required { text="Please describe your event" }
+				   ]}),
+
+    wf:wire(createButton, emailAddress,
+	    #validate { validators=[
+				    #is_email { text="Not a valid email address." }
+				   ]}).
