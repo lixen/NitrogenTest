@@ -11,3 +11,7 @@ report.log
 simple_bridge*.auth
 simple_bridge*.access
 testlogs/
+.project
+.rebar
+.settings/
+ebin/*
