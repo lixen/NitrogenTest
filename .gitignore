@@ -15,3 +15,4 @@ testlogs/
 .rebar
 .settings/
 ebin/*
+/ebin/
